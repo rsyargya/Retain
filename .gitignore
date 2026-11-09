@@ -1,0 +1,35 @@
+# Environment & Secrets
+.env
+*.env
+!.env.example
+
+# Python
+**/__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+*.egg-info/
+retain_backend/*.db
+retain_backend/.venv/
+retain_backend/scratch/
+
+# Flutter & Dart
+retain_mobile/.dart_tool/
+retain_mobile/.idea/
+retain_mobile/build/
+retain_mobile/.flutter-plugins
+retain_mobile/.flutter-plugins-dependencies
+retain_mobile/pubspec.lock
+retain_mobile/android/.gradle/
+retain_mobile/ios/Flutter/ephemeral/
+
+# Logs & Benchmark Artifacts
+*.log
+benchmark*.json
+
+# OS & Temporary
+.DS_Store
+Thumbs.db
+~$*
+*.tmp

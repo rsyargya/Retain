@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Retain Enterprise splash screen (API 21+) -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Navy blue gradient background -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="#172554"
+                android:endColor="#1E3A8A"
+                android:angle="270" />
+        </shape>
+    </item>
+
+    <!-- Center logo -->
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/splash_logo" />
+    </item>
+</layer-list>

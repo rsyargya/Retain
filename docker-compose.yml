@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: retain_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: retain_user
+      POSTGRES_PASSWORD: retain_password
+      POSTGRES_DB: retain_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U retain_user -d retain_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./retain_backend
+      dockerfile: Dockerfile
+    container_name: retain_backend
+    restart: unless-stopped
+    volumes:
+      - ./retain_backend/app:/app/app
+      - ./retain_backend/models:/app/models
+    environment:
+      - DATABASE_URL=postgresql://retain_user:retain_password@db:5432/retain_db
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  ngrok:
+    image: ngrok/ngrok:latest
+    container_name: retain_ngrok
+    restart: unless-stopped
+    command:
+      - "http"
+      - "backend:8000"
+      - "--url=${NGROK_DOMAIN:-headfirst-oil-confining.ngrok-free.dev}"
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
